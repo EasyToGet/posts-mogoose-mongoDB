@@ -21,32 +21,54 @@ const requestListener = async (req, res) => {
 
   if (req.url == '/posts' && req.method == 'GET') {
     const allPosts = await Posts.find();
-    successHandle(res, allPosts);
+    successHandle(res, '取得成功', allPosts);
   } else if (req.url == '/posts' && req.method == 'POST') {
     req.on('end', async () => {
       try {
         const data = JSON.parse(body);
-        if (data.content) {
+        if (data.content !== '') {
           const newPost = await Posts.create(data)
-          successHandle(res, newPost);
+          successHandle(res, '新增成功', newPost);
         } else {
-          errorHandle(res);
+          errorHandle(res, '欄位沒有正確，或沒有此 ID');
         }
       } catch (error) {
-        errorHandle(res, error);
+        errorHandle(res, '欄位沒有正確，或沒有此 ID');
       }
     })
   } else if (req.url == '/posts' && req.method == 'DELETE') {
-    const deleteAll = await Posts.deleteMany({});
-    successHandle(res, deleteAll);
+    await Posts.deleteMany({});
+    const deleteAll = await Posts.find();
+    successHandle(res, '刪除成功', deleteAll);
   } else if (req.url.startsWith('/posts/') && req.method == 'DELETE') {
     try {
       const id = await req.url.split('/').pop();
       const deleteSingle = await Posts.findByIdAndDelete(id);
-      successHandle(res, deleteSingle);
+      if (deleteSingle) {
+        successHandle(res, '刪除成功', deleteSingle);
+      } else {
+        errorHandle(res, '欄位沒有正確，或沒有此 ID');
+      }
     } catch (error) {
-      errorHandle(res, error);
+      errorHandle(res, '欄位沒有正確，或沒有此 ID');
     }
+  } else if (req.url.startsWith('/posts/') && req.method == 'PATCH') {
+    req.on('end', async () => {
+      try {
+        const id = await req.url.split('/').pop();
+        const data = JSON.parse(body);
+        const isId = await Posts.findById(id);
+        if (data.content !== '' && isId) {
+          await Posts.findByIdAndUpdate(id, data);
+          const patchData = await Posts.findOne({_id: id})
+          successHandle(res, '更新成功', patchData);
+        } else {
+          errorHandle(res, '欄位沒有正確，或沒有此 ID');
+        }
+      } catch (error) {
+        errorHandle(res, '欄位沒有正確，或沒有此 ID');
+      }
+    })
   } else if (req.method == 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();

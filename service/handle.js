@@ -1,25 +1,20 @@
 const headers = require('./headers');
 
-const successHandle = (res, data) => {
+const successHandle = (res, message, data) => {
   res.writeHead(200, headers);
   res.write(JSON.stringify({
     "status": "success",
+    "message": message,
     "data": data
   }));
   res.end();
 };
 
-const errorHandle = (res, err) => {
+const errorHandle = (res, message) => {
   res.writeHead(400, headers);
-  let message = '';
-  if(err) {
-    message = err.message;
-  } else {
-    message = "欄位不正確，或沒有此 ID";
-  }
   res.write(JSON.stringify({
     "status": "false",
-    message
+    "message": message
   }));
   res.end();
 };
