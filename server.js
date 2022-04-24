@@ -36,6 +36,17 @@ const requestListener = async (req, res) => {
         errorHandle(res, error);
       }
     })
+  } else if (req.url == '/posts' && req.method == 'DELETE') {
+    const deleteAll = await Posts.deleteMany({});
+    successHandle(res, deleteAll);
+  } else if (req.url.startsWith('/posts/') && req.method == 'DELETE') {
+    try {
+      const id = await req.url.split('/').pop();
+      const deleteSingle = await Posts.findByIdAndDelete(id);
+      successHandle(res, deleteSingle);
+    } catch (error) {
+      errorHandle(res, error);
+    }
   } else if (req.method == 'OPTIONS') {
     res.writeHead(200, headers);
     res.end();
