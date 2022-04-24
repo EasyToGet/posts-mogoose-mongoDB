@@ -55,12 +55,11 @@ const requestListener = async (req, res) => {
   } else if (req.url.startsWith('/posts/') && req.method == 'PATCH') {
     req.on('end', async () => {
       try {
-        const id = await req.url.split('/').pop();
+        const id = req.url.split('/').pop();
         const data = JSON.parse(body);
         const isId = await Posts.findById(id);
         if (data.content !== '' && isId) {
-          await Posts.findByIdAndUpdate(id, data);
-          const patchData = await Posts.findOne({_id: id})
+          const patchData = await Posts.findByIdAndUpdate(id, data, {new: true});
           successHandle(res, '更新成功', patchData);
         } else {
           errorHandle(res, '欄位沒有正確，或沒有此 ID');
