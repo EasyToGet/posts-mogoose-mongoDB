@@ -1,11 +1,18 @@
 const http = require('http');
 const headers = require('./service/headers');
 const mongoose = require('mongoose');
-const { successHandle, errorHandle } = require('./service/handle')
-
+const { successHandle, errorHandle } = require('./service/handle');
+const dotenv = require('dotenv');
 const Posts = require('./models/post');
 
-mongoose.connect('mongodb://localhost:27017/posts')
+dotenv.config({ path: './config.env' });
+
+const DB = process.env.DATABASE.replace(
+  '<password>',
+  process.env.DATABASE_PASSWORD
+)
+
+mongoose.connect(DB)
   .then(() => {
     console.log("資料庫連線成功");
   })
@@ -57,9 +64,8 @@ const requestListener = async (req, res) => {
       try {
         const id = req.url.split('/').pop();
         const data = JSON.parse(body);
-        const isId = await Posts.findById(id);
-        if (data.content !== '' && isId) {
-          const patchData = await Posts.findByIdAndUpdate(id, data, {new: true});
+        const patchData = await Posts.findByIdAndUpdate(id, data, { new: true });
+        if (data.content !== '' && patchData) {
           successHandle(res, '更新成功', patchData);
         } else {
           errorHandle(res, '欄位沒有正確，或沒有此 ID');
@@ -83,4 +89,4 @@ const requestListener = async (req, res) => {
 
 
 const server = http.createServer(requestListener);
-server.listen(process.env.PORT || 3005);
+server.listen(process.env.PORT);
