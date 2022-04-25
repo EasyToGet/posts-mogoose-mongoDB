@@ -1,0 +1,147 @@
+{
+	"info": {
+		"_postman_id": "3af2f697-3ca1-439f-b317-baf2033ca7d4",
+		"name": "posts - heroku",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "取得所有貼文",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://floating-caverns-78775.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"floating-caverns-78775",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "新增所有貼文",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"海賊王\",\r\n    \"content\": \"我要成為海賊王\",\r\n    \"tags\": \"海賊\",\r\n    \"type\": \"group\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://floating-caverns-78775.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"floating-caverns-78775",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除所有貼文",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://floating-caverns-78775.herokuapp.com/posts",
+					"protocol": "https",
+					"host": [
+						"floating-caverns-78775",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "刪除單筆貼文",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://floating-caverns-78775.herokuapp.com/posts/",
+					"protocol": "https",
+					"host": [
+						"floating-caverns-78775",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "更改單筆貼文",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"name\": \"火影忍者\",\r\n    \"content\": \"我是漩渦鳴人\",\r\n    \"tags\": \"忍者\",\r\n    \"type\": \"person\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "https://floating-caverns-78775.herokuapp.com/posts/6266d2f2ff2a650a8723c696",
+					"protocol": "https",
+					"host": [
+						"floating-caverns-78775",
+						"herokuapp",
+						"com"
+					],
+					"path": [
+						"posts",
+						"6266d2f2ff2a650a8723c696"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
