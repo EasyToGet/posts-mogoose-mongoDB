@@ -34,7 +34,12 @@ const requestListener = async (req, res) => {
       try {
         const data = JSON.parse(body);
         if (data.content !== '') {
-          const newPost = await Posts.create(data)
+          const newPost = await Posts.create({
+            name: data.name,
+            tags: data.tags,
+            type: data.type,
+            content: data.content
+          })
           successHandle(res, '新增成功', newPost);
         } else {
           errorHandle(res, '欄位沒有正確，或沒有此 ID');
@@ -64,7 +69,12 @@ const requestListener = async (req, res) => {
       try {
         const id = req.url.split('/').pop();
         const data = JSON.parse(body);
-        const patchData = await Posts.findByIdAndUpdate(id, data, { new: true });
+        const patchData = await Posts.findByIdAndUpdate(id, {
+          name: data.name,
+          tags: data.tags,
+          type: data.type,
+          content: data.content
+        }, { new: true });
         if (data.content !== '' && patchData) {
           successHandle(res, '更新成功', patchData);
         } else {
